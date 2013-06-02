@@ -40,10 +40,13 @@
 								<textbox id="fldAction" flex="1"/>
 							</hbox>
 						</radiogroup>
+					</vbox>
+					<label value="&edit.party.label;"/>
+					<vbox>
 						<radiogroup id="fldPartyGroup">
-							<checkbox id="fldAnyParty" label="&edit.anyparty.label;"/>
-							<checkbox id="fld1stParty" label="&edit.1stparty.label;"/>
-							<checkbox id="fld3rdParty" label="&edit.3rdparty.label;"/>
+							<radio id="fldAnyParty" label="&edit.anyparty.label;"/>
+							<radio id="fld1stParty" label="&edit.1stparty.label;"/>
+							<radio id="fld3rdParty" label="&edit.3rdparty.label;"/>
 						</radiogroup>
 					</vbox>
 				</row>

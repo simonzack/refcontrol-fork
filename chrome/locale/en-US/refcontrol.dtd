@@ -1,11 +1,13 @@
 <!ENTITY	toolsmenu.options.label					"RefControl Options...">
 <!ENTITY	toolsmenu.options.accesskey				"R">
+
 <!ENTITY	contextmenu.options.label				"RefControl Options for This Site...">
 <!ENTITY	contextmenu.options.accesskey			"C">
 <!ENTITY	contextmenu.optionslink.label			"RefControl Options for Link's Site...">
 <!ENTITY	contextmenu.optionslink.accesskey		"f">
 <!ENTITY	contextmenu.optionsimage.label			"RefControl Options for Image's Site...">
 <!ENTITY	contextmenu.optionsimage.accesskey		"R">
+
 <!ENTITY	toolbarbutton.label						"RefControl">
 <!ENTITY	toolbarbutton.tooltip					"RefControl">
 
@@ -65,6 +67,8 @@
 <!ENTITY	edit.action.forge.accesskey				"F">
 <!ENTITY	edit.action.custom.label				"Custom:">
 <!ENTITY	edit.action.custom.accesskey			"C">
+
+<!ENTITY	edit.party.label						"Party:">
 <!ENTITY	edit.anyparty.label						"Requests from any party">
 <!ENTITY	edit.1stparty.label						"1st Party requests only">
 <!ENTITY	edit.3rdparty.label						"3rd Party requests only">
