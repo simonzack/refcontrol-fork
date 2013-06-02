@@ -1,4 +1,8 @@
-function refcontrolObserver() {}
+
+Components.utils['import']('chrome://refcontrol/content/refcontrolOptions.js');
+
+function refcontrolObserver(){};
+
 refcontrolObserver.prototype = {
 	
 	bEnabled: true,
@@ -21,10 +25,10 @@ refcontrolObserver.prototype = {
 		}
 	},
 
-	is3rdPartyRequest: function is3rdPartyRequest(oChannel)
+	is1stPartyRequest: function is1stPartyRequest(oChannel)
 	{
 		return	(oChannel.referrer != null) && 
-				(oChannel.URI.host != oChannel.referrer.host);
+				(oChannel.URI.host == oChannel.referrer.host);
 	},
 	
 	genRandLabel: function genRandLabel()
@@ -111,10 +115,13 @@ refcontrolObserver.prototype = {
 			var refAction = this.aRefActions[sSite];
 			if (refAction == undefined)
 				return false;
-
-			if (refAction.if3rdParty && !this.is3rdPartyRequest(oChannel))
+			
+			var is1stPartyRequest=this.is1stPartyRequest(oChannel);
+			if(refAction.party==1 && !is1stPartyRequest)
 				return false;
-				
+			if(refAction.party==3 && is1stPartyRequest)
+				return false;
+			
 			if (refAction.str.charAt(0) == '@')
 			{
 				// special actions
@@ -164,43 +171,6 @@ refcontrolObserver.prototype = {
 		this.adjustRef(oHttpChannel, '@DEFAULT');
 	},
 
-	getActionsFromBranch: function getActionsFromBranch(oPrefBranch)
-	{
-		function myDecodeURI(sEncodedURI)
-		{
-			if (sEncodedURI.charAt(0) == '@')
-				return sEncodedURI;
-			try {
-				return decodeURI(sEncodedURI);
-			} catch (ex) {
-				return sEncodedURI;
-			}
-		}
-
-		var sActions = oPrefBranch.getCharPref('actions');
-		
-		var aRefActions = {};
-		aRefActions['@DEFAULT'] = { str: '@NORMAL', if3rdParty: false };	// in case it is not in the pref
-		
-		var aActions = sActions.split(' ');
-		for (var i in aActions)
-		{
-			var aKV = aActions[i].match(/(.*?)=(.*)/);
-			if (aKV != null)
-			{
-				var s3rdParty = '@3RDPARTY';
-				var res;
-				if (aKV[2].substr(0, s3rdParty.length) == s3rdParty)
-					res = { str: myDecodeURI(aKV[2].substr(s3rdParty.length + 1)), if3rdParty: true };
-				else
-					res = { str: myDecodeURI(aKV[2]), if3rdParty: false };
-				aRefActions[aKV[1]] = res;
-			}
-		}
-		
-		return aRefActions;
-	},
-
 	onChangeEnabled: function onChangeEnabled(oPrefBranch)
 	{
 		this.bEnabled = oPrefBranch.getBoolPref('enabled');
@@ -208,7 +178,7 @@ refcontrolObserver.prototype = {
 	
 	onChangeActions: function onChangeActions(oPrefBranch)
 	{
-		this.aRefActions = this.getActionsFromBranch(oPrefBranch);
+		this.aRefActions = refcontrolOptions.getActionsFromBranch(oPrefBranch);
 	},
 
 	onAppStartup: function onAppStartup()

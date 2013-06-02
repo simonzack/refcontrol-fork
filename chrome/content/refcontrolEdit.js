@@ -33,6 +33,10 @@ var refcontrolEdit = {
 			var fldActionForge	= document.getElementById("fldActionForge");
 			var fldActionCustom	= document.getElementById("fldActionCustom");
 			var fldAction		= document.getElementById("fldAction");
+			
+			var fldPartyGroup   = document.getElementById("fldPartyGroup");
+			var fldAnyParty     = document.getElementById("fldAnyParty");
+			var fld1stParty     = document.getElementById("fld1stParty");
 			var fld3rdParty     = document.getElementById("fld3rdParty");
 
 			var site	= window.arguments[0].site;
@@ -73,7 +77,18 @@ var refcontrolEdit = {
 					break;
 			}
 			
-			fld3rdParty.checked = action.if3rdParty;
+			switch(action.party){
+				case 1:
+					fldPartyGroup.selectedItem = fld1stParty;
+					break;
+				case 3:
+					fldPartyGroup.selectedItem = fld3rdParty;
+					break;
+				default:
+					fldPartyGroup.selectedItem = fldAnyParty;
+					break;
+			}
+					
 		} catch (ex) {
 			this.dumpEx(ex);
 		}
@@ -89,6 +104,10 @@ var refcontrolEdit = {
 			var fldActionForge	= document.getElementById("fldActionForge");
 			var fldActionCustom	= document.getElementById("fldActionCustom");
 			var fldAction		= document.getElementById("fldAction");
+			
+			var fldPartyGroup   = document.getElementById("fldPartyGroup");
+			var fldAnyParty     = document.getElementById("fldAnyParty");
+			var fld1stParty     = document.getElementById("fld1stParty");
 			var fld3rdParty     = document.getElementById("fld3rdParty");
 
 			var site;
@@ -140,7 +159,17 @@ var refcontrolEdit = {
 					return false;
 			}
 			
-			action.if3rdParty = fld3rdParty.checked;
+			switch (fldPartyGroup.selectedItem){
+				case fld1stParty:
+					action.party = 1;
+					break;
+				case fld3rdParty:
+					action.party = 3;
+					break;
+				default:
+					action.party = 0;
+					break;
+			}
 			
 			window.arguments[0].site = site;
 			window.arguments[0].action = action;

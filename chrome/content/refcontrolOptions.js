@@ -149,7 +149,13 @@ var refcontrolOptions = {
 		var myKeys = ['@DEFAULT'].concat(this.aSortKeys);
 		for (var i = 0; i < myKeys.length; i++)
 		{
-			var sPrefix = this.aRefActions[myKeys[i]].if3rdParty ? '@3RDPARTY' + ':' : '';
+			var party=this.aRefActions[myKeys[i]].party;
+			var sPrefix='';
+			if(party==1){
+				sPrefix='@1STPARTY:'
+			}else if(party==3){
+				sPrefix='@3RDPARTY:'
+			}
 			aKVs.push(myKeys[i] + "=" + sPrefix + myEncodeURI(this.aRefActions[myKeys[i]].str));
 		}
 		return aKVs;
@@ -159,6 +165,9 @@ var refcontrolOptions = {
 	{
 		function myDecodeURI(sEncodedURI)
 		{
+			/**
+			the action is stored as an encoded url if the referrer is to be passed as such, otherwise the action begins with '@'
+			*/
 			if (sEncodedURI.charAt(0) == '@')
 				return sEncodedURI;
 			try {
@@ -167,23 +176,28 @@ var refcontrolOptions = {
 				return sEncodedURI;
 			}
 		}
-
+		
 		var newActions = oldActions ? oldActions : [];
+		
 		for (var i in aActions)
 		{
-			var aKV = aActions[i].match(/(.*?)=(.*)/);
-			if (aKV != null)
-			{
+			var parsed = aActions[i].match(/(.*?)=(.*)/);
+			if (parsed != null){
+				var domain=parsed[1];
+				var action=parsed[2];
+				
+				var s1stParty = '@1STPARTY';
 				var s3rdParty = '@3RDPARTY';
 				var res;
-				if (aKV[2].substr(0, s3rdParty.length) == s3rdParty)
-					res = { str: myDecodeURI(aKV[2].substr(s3rdParty.length + 1)), if3rdParty: true };
+				if (action.substr(0, s1stParty.length) == s1stParty)
+					res = { str: myDecodeURI(action.substr(s1stParty.length + 1)), party: 1};
+				else if (action.substr(0, s3rdParty.length) == s3rdParty)
+					res = { str: myDecodeURI(action.substr(s3rdParty.length + 1)), party: 3};
 				else
-					res = { str: myDecodeURI(aKV[2]), if3rdParty: false };
-				newActions[aKV[1]] = res;
+					res = { str: myDecodeURI(action), party: 0};
+				newActions[domain] = res;
 			}
 		}
-		
 		return newActions;
 	},
 	
@@ -192,7 +206,7 @@ var refcontrolOptions = {
 		var sActions = oPrefBranch.getCharPref('actions');
 		
 		var oldActions = [];
-		oldActions['@DEFAULT'] = { str: '@NORMAL', if3rdParty: false };	// in case it is not in the pref
+		oldActions['@DEFAULT'] = { str: '@NORMAL', party: 0};	// in case it is not in the pref
 		
 		return this.getActionsFromImport(sActions.split(' '), oldActions);
 	},
@@ -432,7 +446,7 @@ var refcontrolOptions = {
 
 		var oldAction = (this.aRefActions[oldSite] != undefined) ? 
 						this.aRefActions[oldSite] : 
-						{ str: '@NORMAL', if3rdParty: false };
+						{ str: '@NORMAL', party: 0};
 		var arg = { site: oldSite, action: oldAction };
 
 		openDialog("chrome://refcontrol/content/refcontrolEdit.xul", "", "centerscreen,chrome,modal,resizable=no", arg);
@@ -618,6 +632,9 @@ var refcontrolOptions = {
 	
 	formatAction: function formatAction(act)
 	{
+		/**
+		the string in the 'action' column in the gui actions table
+		*/
 		var ret;
 		if (act.str == '@NORMAL')
 			ret = this.getString("ActionNormal");
@@ -627,7 +644,9 @@ var refcontrolOptions = {
 			ret = this.getString("ActionBlock");
 		else
 			ret = act.str;
-		if (act.if3rdParty)
+		if(act.party==1)
+			ret = ret + " " + this.getString("Action1stParty");
+		else if(act.party==3)
 			ret = ret + " " + this.getString("Action3rdParty");
 		return ret;
 	}	

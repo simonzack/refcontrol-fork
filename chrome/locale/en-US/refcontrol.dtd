@@ -65,5 +65,6 @@
 <!ENTITY	edit.action.forge.accesskey				"F">
 <!ENTITY	edit.action.custom.label				"Custom:">
 <!ENTITY	edit.action.custom.accesskey			"C">
+<!ENTITY	edit.anyparty.label						"Requests from any party">
+<!ENTITY	edit.1stparty.label						"1st Party requests only">
 <!ENTITY	edit.3rdparty.label						"3rd Party requests only">
-<!ENTITY	edit.3rdparty.accesskey					"3">
