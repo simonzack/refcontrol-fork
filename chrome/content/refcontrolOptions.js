@@ -1,4 +1,6 @@
 
+EXPORTED_SYMBOLS=['refcontrolOptions'];
+
 // for Help | About | Visit Home Page
 function openURL(aURL)
 {

@@ -184,8 +184,8 @@ refcontrolObserver.prototype = {
 
 	onAppStartup: function onAppStartup()
 	{
+		Components.utils.import('chrome://refcontrol/content/refcontrolOptions.js');
 		var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-		
 		observerService.addObserver(this, "http-on-modify-request", true);
 		
 		var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
