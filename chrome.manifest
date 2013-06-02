@@ -10,4 +10,4 @@ style chrome://global/content/customizeToolbar.xul chrome://refcontrol/skin/tool
 
 component {07C3DD15-0F44-4723-94DE-720B3B2FF9AF} components/refcontrolComp.js
 contract @mozilla.org/refcontrol;1 {07C3DD15-0F44-4723-94DE-720B3B2FF9AF}
-category profile-after-change @mozilla.org/refcontrol;1 @mozilla.org/refcontrol;1
+category profile-after-change refcontrol @mozilla.org/refcontrol;1

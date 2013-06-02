@@ -1,5 +1,6 @@
 
-Components.utils['import']('chrome://refcontrol/content/refcontrolOptions.js');
+Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+const CI = Components.interfaces, CC = Components.classes, CR = Components.results;
 
 function refcontrolObserver(){};
 
@@ -184,6 +185,7 @@ refcontrolObserver.prototype = {
 	onAppStartup: function onAppStartup()
 	{
 		var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+		
 		observerService.addObserver(this, "http-on-modify-request", true);
 		
 		var prefService = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
@@ -195,10 +197,11 @@ refcontrolObserver.prototype = {
 		this.onChangeActions(this.prefBranch);
 	},
 
-	// Implement nsIObserver
-	observe: function observe(aSubject, aTopic, aData)
-	{
-//this.dump("observe: " + aTopic);
+	observe: function observe(aSubject, aTopic, aData){
+		/**
+		implements nsIObserver
+		*/
+		//this.dump("observe: " + aTopic);
 		try {
 			switch (aTopic)
 			{
@@ -223,8 +226,7 @@ refcontrolObserver.prototype = {
 							break;
 					}
 					break;
-					
-				case 'app-startup':
+				
 				case 'profile-after-change':
 					this.onAppStartup();
 					break;
@@ -238,9 +240,10 @@ refcontrolObserver.prototype = {
 		}
 	},
 	
-	// Implement nsISupports
-	QueryInterface: function QueryInterface(iid)
-	{
+	QueryInterface: function QueryInterface(iid){
+		/**
+		implements nsISupports
+		*/
 		if (!iid.equals(Components.interfaces.nsISupports) &&
 			!iid.equals(Components.interfaces.nsIObserver) &&
 			!iid.equals(Components.interfaces.nsISupportsWeakReference))
@@ -255,6 +258,5 @@ refcontrolObserver.prototype = {
 	_xpcom_categories: [{category: 'profile-after-change'}]
 };
 
-Components.utils["import"]("resource://gre/modules/XPCOMUtils.jsm");
-
-var NSGetFactory = XPCOMUtils.generateNSGetFactory([refcontrolObserver]);
+var components = [refcontrolObserver];
+var NSGetFactory = XPCOMUtils.generateNSGetFactory(components);
