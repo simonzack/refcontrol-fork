@@ -58,7 +58,7 @@
 <!ENTITY	edit.title								"RefControl Site Properties">
 <!ENTITY	edit.site.label							"Site:">
 <!ENTITY	edit.site.accesskey						"S">
-<!ENTITY	edit.action.label						"Action:">
+<!ENTITY	edit.action.label						"Action">
 <!ENTITY	edit.action.normal.label				"Normal - send the actual referrer">
 <!ENTITY	edit.action.normal.accesskey			"N">
 <!ENTITY	edit.action.block.label					"Block - send no referrer">
@@ -68,7 +68,7 @@
 <!ENTITY	edit.action.custom.label				"Custom:">
 <!ENTITY	edit.action.custom.accesskey			"C">
 
-<!ENTITY	edit.party.label						"Party:">
+<!ENTITY	edit.party.label						"Party">
 <!ENTITY	edit.anyparty.label						"Requests from any party">
 <!ENTITY	edit.1stparty.label						"1st Party requests only">
 <!ENTITY	edit.3rdparty.label						"3rd Party requests only">
