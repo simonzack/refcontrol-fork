@@ -167,8 +167,6 @@ var refcontrolOverlay = {
 			switch (evt.type)
 			{
 				case 'load':
-					// workaround https://bugzilla.mozilla.org/show_bug.cgi?id=174320
-					setTimeout(function(myThis) { window.removeEventListener("load", myThis, false); }, 0, this);
 					return this.onLoad(evt);
 				case 'popupshowing':
 					return this.onPopupShowing(evt);
