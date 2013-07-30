@@ -93,6 +93,7 @@ var refcontrolOverlay = {
 	{
 		window.addEventListener("unload", this, false);
 		window.getBrowser().addProgressListener(this);
+		//adding a 'onpopupshowing' attribute to contentAreaContextMenu overwrites the original
 		document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", this, false);
 
 		this.prefBranch = refcontrolPrefs.getPrefBranch();
@@ -145,6 +146,11 @@ var refcontrolOverlay = {
 
 	onPopupShowing: function onPopupShowing(e)
 	{
+		/**
+		custom page context menu entries
+		*/
+		if(!gContextMenu)
+			return;
 		var bShow = this.bShowContextMenu && 
 					!gContextMenu.isTextSelected && !gContextMenu.onLink && !gContextMenu.onImage && !gContextMenu.onTextInput &&
 					this.isOurURL(gContextMenu.target.ownerDocument.location.href);		// gContextMenu.docURL
@@ -271,7 +277,6 @@ var refcontrolOverlay = {
 	onSecurityChange: function(webProgress, request, state) {},
 	onStateChange: function(webProgress, request, stateFlags, status) {},
 	onStatusChange: function(webProgress, request, status, message) {},
-	// end Implement nsIWebProgressListener
 
 	// see http://forums.mozillazine.org/viewtopic.php?t=49716
 	onLinkIconAvailable: function(a) {},
@@ -291,5 +296,8 @@ var refcontrolOverlay = {
 	}
 };
 
-window.addEventListener("load", refcontrolOverlay, false);
+function init(){
+	window.addEventListener('load', refcontrolOverlay, false);
+}
 
+init();

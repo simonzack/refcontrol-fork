@@ -18,7 +18,9 @@
 				insertbefore="prefSep"/>
 	</menupopup>
 
-	<popup id="contentAreaContextMenu">
+	<menupopup id="contentAreaContextMenu">
+		<!-- browser context menu -->
+		
 		<menuseparator id="refcontrol_sep" />
 		<menuitem id="refcontrol_options"
 				label="&contextmenu.options.label;"
@@ -34,9 +36,11 @@
 				label="&contextmenu.optionsimage.label;"
 				accesskey="&contextmenu.optionsimage.accesskey;"
 				oncommand="refcontrolOverlay.contextOptionsImage();"/>
-	</popup>
+	</menupopup>
 
 	<toolbarpalette id="BrowserToolbarPalette">
+		<!-- tool bar/status bar button -->
+		
 		<toolbarbutton
 				id="refcontrol-toolbarbutton"
 				class="toolbarbutton-1 chromeclass-toolbar-additional"
