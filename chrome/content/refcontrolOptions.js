@@ -65,14 +65,10 @@ var refcontrolOptions = {
 	
 	view: {
 		mgr: null,		// points back to refcontrolOptions
-		atomBold: null,
 		
 		init: function init(mgr)
 		{
 			this.mgr = mgr;
-			
-			var svcAtom = Components.classes["@mozilla.org/atom-service;1"].getService(Components.interfaces.nsIAtomService);
-			this.atomBold = svcAtom.getAtom("bold");
 		},
 		
 		// Implement TreeView interface
@@ -107,9 +103,9 @@ var refcontrolOptions = {
 		getProgressMode: function(aRow, aColumn) {},
 		getCellValue: function(aRow, aColumn) {},
 		cycleHeader: function(aColId, aElt) {},
-		getRowProperties: function(aRow, aProperty) {},
-		getColumnProperties: function(aColumn, aColumnElement, aProperty) {},
-		getCellProperties: function getCellProperties(aRow, aColumn, aProperty)
+		getRowProperties: function(aRow) {},
+		getColumnProperties: function(aColumn, aColumnElement) {},
+		getCellProperties: function getCellProperties(aRow, aColumn)
 		{
 			try {
 				var bBold = false;
@@ -126,7 +122,7 @@ var refcontrolOptions = {
 					bBold = (sValue.charAt(0) == '@' || sValue == '');
 				}
 				if (bBold)
-					aProperty.AppendElement(this.atomBold);
+					return 'bold';
 			} catch (ex) {
 				this.mgr.dumpEx(ex);
 			}
