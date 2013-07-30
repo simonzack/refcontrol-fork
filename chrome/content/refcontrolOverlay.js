@@ -278,9 +278,6 @@ var refcontrolOverlay = {
 	onStateChange: function(webProgress, request, stateFlags, status) {},
 	onStatusChange: function(webProgress, request, status, message) {},
 
-	// see http://forums.mozillazine.org/viewtopic.php?t=49716
-	onLinkIconAvailable: function(a) {},
-
 	// Implement nsISupports
 	QueryInterface: function QueryInterface(aIID)
 	{
